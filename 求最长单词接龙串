@@ -1,0 +1,81 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class print {
+public static void main (String[] args) {
+File file=new File("D:\\1.txt"); //读取文件
+if(!file.exists())
+{
+System.out.println("文件不存在");
+System.exit(0);
+}
+try {
+FileReader fr = new FileReader(file);
+BufferedReader br = new BufferedReader(fr);
+if(file.exists())
+{
+System.out.println("文件存在");
+}
+StringBuffer sb=new StringBuffer();
+String l;
+while((l=br.readLine())!=null)
+{
+sb.append(l);
+}
+br.close();
+String str = sb.toString().toLowerCase();
+String []data=str.split("[^(a-zA-Z)]+");
+String []b=new String [data.length];
+for(int i=0;i<b.length;i++)
+{
+b[i]=data[i];
+}
+if(b.length==0)
+{
+System.out.println("文件为空");
+System.exit(0);
+}
+else if(b.length==1)
+{
+System.out.println("文件仅有一个单词，无法接龙");
+System.exit(0);
+}
+int i=1;
+String[] a = new String[b.length];
+a[0] = b[0];
+for (int j = 0; j < b.length; j++) {
+if (a[i - 1].equals(b[j])) continue;
+if (a[i - 1].charAt(a[i - 1].length() - 1) == b[j].charAt(0)) {
+a[i] = b[j];
+i++;
+}
+}
+
+FileWriter fw=new FileWriter("D:\\output1.txt");
+BufferedWriter bw =new BufferedWriter(fw);
+for( i = 0 ; i < a.length ; i++ )
+{
+if(a[i]!=null) {
+bw.write(a[i]);
+bw.write('\r');
+bw.write('\n');
+}
+else if(a[i]==null) {
+System.out.println(" ");
+}
+
+}
+bw.close();
+
+} catch (IOException e) {
+e.printStackTrace();
+}
+
+
+}
+
+}
